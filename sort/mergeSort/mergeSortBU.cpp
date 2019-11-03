@@ -97,7 +97,7 @@ int main() {
 
 
     cout << "======" << endl;
-    SortTestHelper::testSort("mergeSort", mergeSortBU, arr, n);
+    SortTestHelper::testSort("mergeSortBU", mergeSortBU, arr, n);
     SortTestHelper::printArray(arr, n);
 
     delete[] arr;
