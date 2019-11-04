@@ -24,23 +24,28 @@ void insertionSort(T arr[], int n){
 }
 template <class  T>
 void insertionSort2(T arr[], int n){
-    for (int i = 0; i < n; i++) {
+    for (int i = 1; i < n; i++) {
         T insertValue = arr[i];
         int insertPervIndex = i -1;
-        while (insertPervIndex >0 && arr[insertPervIndex] > insertValue){
+        while (insertPervIndex >=0 && arr[insertPervIndex] > insertValue){
             arr[insertPervIndex +1] = arr[insertPervIndex];
             insertPervIndex --;
         }
+        arr[insertPervIndex + 1] = insertValue ;
     }
 }
 
 using namespace std;
 
 int main(){
-    int n = 1000;
+    int n = 10;
     int * arr= SortTestHelper::generateRandomArray(n,0,n);
     int * arr2 = SortTestHelper::copyIntArray(arr,n);
+    SortTestHelper::printArray(arr, n);
+    cout << "======" << endl;
     SortTestHelper::testSort("insertionSort",insertionSort2,arr,n);
+    SortTestHelper::printArray(arr, n);
+
     delete[] arr;
     delete[] arr2;
     return 0;

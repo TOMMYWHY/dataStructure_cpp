@@ -18,15 +18,15 @@ void __merge(T arr[], int l, int mid, int r) {
         temp[i - l] = arr[i];// i 从 l 开始 // 第一次循环： l-l = 0 =>arr[0]
         // 因为 arr 存储类型不定，temp 又必须赋初值，所以填充 arr[i]
     }
-    int leftIndex = l, rightIndex = mid + 1;
-    for (int k = leftIndex; k <= r; k++) { //k 从 [l...r]
+    int leftIndex = l, rightIndex = mid + 1;//两个数组 分别的头指针
+    for (int k = l; k <= r; k++) { //k 从 [l...r] temp 的指针
         if (leftIndex > mid) {
-            arr[k] = temp[rightIndex - l];
+            arr[k] = temp[rightIndex - l];// temp 对应的值 去更改 原 arr
             rightIndex++;
         } else if (rightIndex > r) {
             arr[k] = temp[leftIndex - l];
             leftIndex++;
-        } else if (temp[leftIndex - l] < temp[rightIndex - l]) {
+        } else if (temp[leftIndex - l] < temp[rightIndex - l] ) { // 及 right 有余值
             arr[k] = temp[leftIndex - l];
             leftIndex++;
         } else {
@@ -44,6 +44,7 @@ void __mergeSort(T arr[], int leftBound, int rightBound) {
     int mid = (leftBound + rightBound) / 2;
     __mergeSort(arr, leftBound, mid);//←半边数组
     __mergeSort(arr, mid + 1, rightBound); // 右半边数组
+
     __merge(arr, leftBound, mid, rightBound);
 }
 
@@ -54,7 +55,7 @@ void mergeSort(T arr[], int n) {
 
 
 int main() {
-    int n = 1000;
+    int n = 20;
     int *arr = SortTestHelper::generateRandomArray(n, 0, n);
     SortTestHelper::printArray(arr, n);
 
