@@ -44,8 +44,11 @@ void __mergeSort(T arr[], int leftBound, int rightBound) {
     int mid = (leftBound + rightBound) / 2;
     __mergeSort(arr, leftBound, mid);//←半边数组
     __mergeSort(arr, mid + 1, rightBound); // 右半边数组
-
-    __merge(arr, leftBound, mid, rightBound);
+    if(arr[mid] <= arr[mid+1]){
+        // 此时前后两部分是有序 优化
+    } else{
+        __merge(arr, leftBound, mid, rightBound);
+    }
 }
 
 template<class T>
