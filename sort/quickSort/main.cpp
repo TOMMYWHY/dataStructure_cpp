@@ -8,6 +8,11 @@
 
 #include "../SortTestHelper.h"
 
+/*
+ * 近乎有序时，不如 merge
+ * 重复项多时，效率低，On2
+ *
+ */
 // arr[l...p-1] arr[p] arr[p+1...r]
 template<class T>
 int __partition(T arr[], int l, int r) {
@@ -24,6 +29,43 @@ int __partition(T arr[], int l, int r) {
     swap(arr[l], arr[j]);
     return j;
 }
+
+/*
+ * 优化
+ */
+template<class T>
+int __partitionPro(T arr[], int l, int r) {
+    swap(arr[l], arr[rand() % (r - l + 1) + l]); // 随机交换
+    T v = arr[l]; // pivot
+    // arr[l+1...i) <= v <= arr[j...r]
+    int i = l + 1, j = r;
+    while (true) {
+        while (arr[i] < v && i <= r) {
+            i++;
+        }
+        while (arr[j] > v && j >= l + 1) {
+            j--;
+        }
+        if(i>j){
+            break;
+        }
+        swap(arr[i],arr[j]);
+        i++;
+        j--;
+    }
+    swap(arr[l],arr[j]);
+    return j;
+}
+
+/*
+ *  三路快排
+ */
+template<class T>
+int __partition3way(T arr[], int l, int r) {
+
+}
+
+
 
 template<class T>
 int __partition2(T arr[], int leftBound, int rightBound) {
@@ -47,6 +89,7 @@ int __partition2(T arr[], int leftBound, int rightBound) {
     return rightIndex;
 
 }
+
 /*
  * 快排 最佳解决方案
  *
@@ -57,11 +100,11 @@ int __partition3(T arr[], int leftBound, int rightBound) {
     int low = leftBound;
     int high = rightBound;
     while (low < high) {
-        while(low<high && arr[high]>= mid_value){
+        while (low < high && arr[high] >= mid_value) {
             high--;
         }
         arr[low] = arr[high]; // 交换之后，low 位置的值 一定 < mid_value
-        while (low<high && arr[low] < mid_value){
+        while (low < high && arr[low] < mid_value) {
             low++;
         }
         arr[high] = arr[low];
@@ -73,8 +116,10 @@ int __partition3(T arr[], int leftBound, int rightBound) {
 //[l...r]
 template<class T>
 void __quickSort(T arr[], int l, int r) {
-    if (l >= r)return;
-    int p = __partition3(arr, l, r);
+    if (l >= r)return;//optimize <15 => insertionSort
+//    int p = __partition3(arr, l, r);
+    int p = __partitionPro(arr, l, r);
+
     __quickSort(arr, l, p - 1);
     __quickSort(arr, p + 1, r);
 }
