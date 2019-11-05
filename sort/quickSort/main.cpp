@@ -17,6 +17,7 @@ int __partition(T arr[], int l, int r) {
     for (int i = l + 1; i <= r; i++) {
         if (arr[i] < v) {
             swap(arr[j + 1], arr[i]);
+            //交换原理：43min  https://www.bilibili.com/video/av73598119/?p=4
             j++;
         }
     }
